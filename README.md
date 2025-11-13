@@ -1,146 +1,129 @@
-# Reinforcement-Learning-Programming-Assignment-3  
-# 🏓 Deep Q-Learning for PongDeterministic-v4  
-CSCN8020 – Reinforcement Learning Programming
+# Reinforcement Learning Programming – Assignment 3  
+## Deep Q-Learning for PongDeterministic-v4  
+CSCN8020 – Fall 2025
 
 ---
 
-## ✅ Environment Activation
+## Environment Setup
 
-Before running the notebook, activate your project environment:
+Activate the project environment before running the notebook:
 
 ```bash
 pong311\Scripts\activate
 pip install -r requirements.txt
-This ensures all required libraries are installed correctly.
 
-📘 Project Overview
-This project implements Deep Q-Learning (DQN) on the PongDeterministic-v4 environment from Gymnasium.
-The agent learns directly from image observations using:
 
-Frame preprocessing (crop → grayscale → resize)
+## Project Overview
 
-4-frame stacked states
+This project implements the Deep Q-Learning (DQN) algorithm on the PongDeterministic-v4 environment.  
+The agent learns directly from image observations using the following components:
 
-Convolutional Neural Network (CNN)
+- Image preprocessing (crop → grayscale → resize)  
+- Stacked 4-frame state representation  
+- Convolutional Neural Network (CNN)  
+- Experience replay memory  
+- Target network  
+- Epsilon-greedy exploration  
 
-Experience replay memory
+The goal is to train an agent that can successfully play and win Pong.
 
-Target network
+---
 
-Epsilon-greedy exploration
+## Assignment-Required Hyperparameters
 
-The objective is to train an agent that learns to consistently win in Pong.
+These hyperparameters are fixed by the assignment and must not be changed.
 
-📌 Assignment-Required Hyperparameters (Not Allowed to Change)
-The following hyperparameters are fixed by the assignment instructions:
+### Batch Size
+- Default run: 8  
+- Experiment run: 16
 
-Batch Size
-Default run → 8
+### Target Network Update Frequency
+- Default run: every 10 episodes  
+- Experiment run: every 3 episodes
 
-Experiment run → 16
+### Discount Factor
+- γ = 0.95
 
-Target Network Update Frequency
-Default run → every 10 episodes
+### Epsilon Decay
 
-Experiment run → every 3 episodes
+\[
+\epsilon =
+\begin{cases}
+\epsilon \cdot 0.995, & \text{if } \epsilon \ge 0.05 \\
+0.05, & \text{otherwise}
+\end{cases}
+\]
 
-Discount Factor
-γ = 0.95
+All required hyperparameters were used exactly as provided.
 
-Epsilon Decay Rule
-𝜖
-=
-{
-𝜖
-⋅
-0.995
-,
-if 
-𝜖
-≥
-0.05
-0.05
-,
-otherwise
-ϵ={ 
-ϵ⋅0.995,
-0.05,
-​
-  
-if ϵ≥0.05
-otherwise
-​
- 
-These hyperparameters were used exactly as specified.
+---
 
-⚙️ Methods Used to Reduce Debugging Time
-(All allowed because the assignment does not define a required number of frames.)
+## Methods Used to Reduce Debugging Time
 
-Because Atari environments are computationally heavy, several debugging optimizations were used to make testing faster, without modifying the required hyperparameters.
+These adjustments were used only to speed up runtime during debugging.  
+They do not modify any of the required hyperparameters, and they are allowed because the assignment does not specify a required training length.
 
-✔ Reduced Training Frames
-20,000 frames for debug mode
+### Reduced Training Frames
+- Debug mode: 20,000 frames  
+- Final mode: 150,000 frames
 
-150,000 frames for final mode
+### Episode Limits
+- Debug mode: 150 episodes  
+- Final mode: 500 episodes
 
-✔ Episode Caps
-150 episodes in debug mode
+### Early Stopping
 
-500 episodes in final mode
+Training stops early when:
+- A minimum number of frames has been reached (for example, 60,000 frames), and  
+- The average reward of the last 5 episodes is at least 15.
 
-✔ Early Stopping
-Training stops early if:
+### Training Modes
 
-At least 60,000 frames have been processed
+The notebook includes two modes:
 
-The average reward of the last 5 episodes ≥ 15
+**DEBUG_MODE = True**
+- Reduced frames  
+- Faster execution  
+- Used for testing and debugging  
 
-This prevents unnecessarily long runs once the agent stabilizes.
+**DEBUG_MODE = False**
+- Used for the four required experiment runs  
+- Produces the plots required for the report  
 
-✔ Two Training Modes
-The notebook includes:
+These changes affect only training duration and not the assignment-required parameters.
 
-DEBUG_MODE = True
-Faster testing
+---
 
-Fewer frames
+## Metrics and Plots
 
-Used during development
+The notebook generates the following plots:
 
-DEBUG_MODE = False
-Used for the four required experiments
-
-Produces the plots required for the report
-
-These modifications only affect runtime—not the required hyperparameters.
-
-📊 Metrics & Plots Generated
-The notebook automatically generates:
-
-Reward per episode
-
-Average reward of the last 5 episodes (assignment requirement)
-
-Loss during training
+- Reward per episode  
+- Average reward of the last 5 episodes  
+- Loss curve  
 
 These plots must be included in the final PDF report.
 
-▶️ Required Experiments to Run
-The notebook must be run four times, updating the batch size and target update frequency for each run:
+---
 
-Experiment #	Batch Size	Target Update
-1 (Default)	8	Every 10 episodes
-2	16	Every 10 episodes
-3	8	Every 3 episodes
-4	16	Every 3 episodes
+## Required Experiments
 
-All plots, observations, and comparisons from these runs must be included in the report.
+The notebook must be executed four times with the following configurations:
 
-✔ Notes
-All assignment-required hyperparameters were preserved exactly.
+| Experiment | Batch Size | Target Update        |
+|------------|------------|-----------------------|
+| 1          | 8          | every 10 episodes     |
+| 2          | 16         | every 10 episodes     |
+| 3          | 8          | every 3 episodes      |
+| 4          | 16         | every 3 episodes      |
 
-Only the training duration was modified using frame caps, episode limits, and early stopping.
+Each run must include the generated plots and a comparison of results.
 
-These changes are allowed because the assignment does not specify a required number of frames.
+---
 
-Always activate your environment before running the notebook.
+## Notes
+
+- All assignment-required hyperparameters were kept unchanged.  
+- Only training length and stopping conditions were adjusted to make debugging more efficient.  
+- These adjustments are permitted, as the assignment does not specify a required number of frames.  
+- The environment must be activated before running the notebook.
